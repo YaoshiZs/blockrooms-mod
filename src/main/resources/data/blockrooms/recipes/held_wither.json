@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": {
+      "tag": "minecraft:wither_skull"
+    },
+    "S": {
+      "tag": "minecraft:soul_sand"
+    }
+  },
+  "pattern": [
+    "WWW",
+    " S ",
+    " S "
+  ],
+  "result": {
+    "item": "blockrooms:held_wither"
+  },
+  "show_notification": true
+}
