@@ -2,17 +2,17 @@ package org.blockrooms;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.blockrooms.entity.enhanced.EnhancedZombie;
 import org.blockrooms.items.AlmondMilkBucketItem;
 import org.blockrooms.items.HeldWitherItem;
 
@@ -27,21 +27,24 @@ public class BRRegistries {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, MODID);
-
+    public static final RegistryObject<EntityType<EnhancedZombie>> ENHANCED_ZOMBIE = ENTITY_TYPES.register("enhanced_zombie", () -> EntityType.Builder.of(EnhancedZombie::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).build("enhanced_zombie"));
     public static final RegistryObject<Item> ALMOND_MILK = ITEMS.register("almond_milk_bucket", AlmondMilkBucketItem::new);
     public static final RegistryObject<Item> HELD_WITHER = ITEMS.register("held_wither", HeldWitherItem::new);
-
+    public static final RegistryObject<SpawnEggItem> ENHANCED_ZOMBIE_SPAWN_EGG = ITEMS.register("enhanced_zombie", () -> new ForgeSpawnEggItem(ENHANCED_ZOMBIE::get, 44975, 7969893, new Item.Properties()));
 
     public static final RegistryObject<CreativeModeTab> ITEM_TAB = CREATIVE_MODE_TABS.register("item_tab", () -> CreativeModeTab.builder().icon(() -> ALMOND_MILK.get().getDefaultInstance()).displayItems((parameters, output) -> {
         output.accept(ALMOND_MILK.get());
     }).build());
 
+
     public static void register(IEventBus modEventBus){
-        // Register the Deferred Register to the mod event bus so blocks get registered
+
         BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
+
         ITEMS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so tabs get registered
+
         CREATIVE_MODE_TABS.register(modEventBus);
+
+        ENTITY_TYPES.register(modEventBus);
     }
 }
